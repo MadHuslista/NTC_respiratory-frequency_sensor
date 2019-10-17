@@ -237,9 +237,10 @@ void P_7()
   
   else if (Flag == 1)
   {
-    Serial.println("DFT");
+    unsigned long a = millis();
+    Serial.println(a);
     detect_freq(sign);
-    Serial.println("DFT - END");
+    Serial.println(millis()-a);
 
     //dft_results = dft(sign);
     //avg_results = avg(dft_results);

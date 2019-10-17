@@ -16,7 +16,7 @@
 
   - Entonces para controlar la precisión de la medición de la freq, aumentar los sec record (por consiguiente el N) y mantener la freq_samp en 2Hz. 
   - Los límites considerados plausibles son: 
-              - Máxima Taquipnea de 30 resp/min
+              - Máxima Taquipnea de 60 resp/min
               - Mínima Bradipnea de 10 resp/min
 
 */
@@ -31,6 +31,9 @@ void setup() {
   pinMode(led_red,OUTPUT);
 
   
+
+  analogReadResolution(12);
+
   Serial.begin(9600);
  
 }
@@ -41,8 +44,8 @@ void loop() {
   //P_1();
   //P_4();
   //P_5();
-  P_6();
-  //P_7();
+  //P_6();
+  P_7();
   
 
 

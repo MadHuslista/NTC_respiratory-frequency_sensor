@@ -18,7 +18,7 @@ float min_bradip = 10;
 
 unsigned long current_time = millis();
 unsigned long prev_time = 0;
-unsigned long interval = 1000/samp_freq;  //interval = 500ms, para una freq de sampleo de 2Hz considerando max freq de señal 0.5Hz
+unsigned long interval = 1000/samp_freq;  
 unsigned long prev_interv = 0;
 
 float pi = 3.14159265358979323846;
@@ -42,8 +42,10 @@ float volt_rest(int map_volt)
 {
   int resist = 989;
   //int resist = 10000;
-  float Vs = 4.47; 
-  float volt = float_map(map_volt, 0, 1023, 0.2, 4.4);
+  float Vs = 3.26;   //Due
+  //float Vs = 4.47; //Uno
+  float volt = float_map(map_volt, 0, 4095, 0.2, Vs);
+  //Serial.println(volt);
   float termist = (volt*resist - Vs*resist)/(-volt);
   return termist;
   
