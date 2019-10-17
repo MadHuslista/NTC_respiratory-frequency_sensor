@@ -25,7 +25,7 @@ void values_reading()
   {
     sign[pos] = sign[pos+1];
   }
-  sign[19] = dato;
+  sign[199] = dato;
   float temp = steinhart(dato);
 
   /*Serial.print(sign[0]);
@@ -69,21 +69,26 @@ void freq_detection()
   float max_amp = 0;
   float freq = 0;
   float freq_s = 0;
-  for (int k = 0; k < (N/2); k++)    
+  float k_interpolation = 0;
+  
+  for (int k = 1; k < (N/2)-1; k++)
   {
     freq_s = float_map(k,0, N, 0, samp_freq);
     Serial.print(DFT_results[k]);
     Serial.print("  ");
     Serial.println(freq_s,3);
     
-    //if (dft_r[k] > max_amp)
-    if ((DFT_results[k] > max_amp)&&(freq_s > 0.15))
-    {
-      //max_amp = dft_r[k];
-      max_amp = DFT_results[k];
-      freq = float_map(k,0, N, 0, samp_freq);
-    }
+    //k_interpolation = k + log(DFT_results[k+1]/DFT_results[k-1])/(2*log((DFT_results[k]*DFT_results[k])/(DFT_results[k+1]*DFT_results[k-1])));
+    k_interpolation = k;
   }
+  if ((k_interpolation > max_amp)&&(freq_s > 0.15))   //CORREGIR EL IF. ORIGINALMENTE ERA DFT_results[k] > MAX_AMP. LA K CLARAMENTE SIEMPRE VA A AUMENTAR. ERGO, SIEMPRE QUEDARÁ PEGADO EN EL ÚLTIMO!. LA INTERPOLACIÓN DEBE SER POSTERIOR A PILLAR EL BIN!! 
+    {                                                 //ALGO ASÍ COMO PILLO EL BIN CON DFT_results[k] > MAX_AMP Y LUEGO <ALLÍ RECIÉN> hago la interpolación. 
+      //max_amp = dft_r[k];
+      max_amp = k_interpolation;
+      freq = float_map(k_interpolation,0, N, 0, samp_freq);
+    }
+  Serial.print("Amp:");
+  Serial.println(k_interpolation);
   Serial.print("Respiraciones por Minuto: ");
   Serial.println(freq*60, 3);
   Serial.print("Frecuencia Resp: ");
