@@ -5,11 +5,14 @@
 
 //DFT_Variables
 extern float pi;
+extern float DFT_signal_amps[10];
+extern float sig2_ampl[10];
+extern float windowed_sign[20];
 
 //DFT Tool Functions
-float * dft(int *x);
+float * dft(float *x, float *ampl);
 float * avg(float *dft_sig);
-float * window(int *wr); 
+float * window(float *wr, float *wbhn); 
 
 
 

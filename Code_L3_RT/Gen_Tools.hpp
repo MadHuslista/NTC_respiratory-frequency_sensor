@@ -21,7 +21,7 @@ extern int sensor;
 
 //Reading_Variables
 extern int dato; 
-extern int sign [80] ;
+extern float sign [20] ;
 extern int sign_pos ;
 
 

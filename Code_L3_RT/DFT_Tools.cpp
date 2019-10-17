@@ -3,11 +3,13 @@
 
 
 float pi = 3.14159265358979323846;
+extern float DFT_signal_amps[10] = {};
+extern float sig2_ampl[10] = {};
+extern float windowed_sign[20] = {};
 
-float * dft(int *x)
+
+float * dft(float *x, float *ampl)
 {
-  //int N = 80; 
-  static float compl_amp [40] = {}; //[N/2]
   float re;
   float im;
   float phi;
@@ -24,22 +26,20 @@ float * dft(int *x)
       re = re + x[n]*cos(phi);
       im = im - x[n]*sin(phi);
     }
-   //re = re/N;
-   //im = im/N;
+   re = re/N;
+   im = im/N;
    amp = sqrt(re*re + im*im);
    
-   compl_amp[k] = amp;
+   ampl[k] = amp;
       
   }
-  return compl_amp;  
+  return ampl;  
 }
 
 
 
-float * avg(float *dft_sig)
+float * avg(float *dft_sig, float *avg_sign)
 {
-  
-  static float avg_sign [40] = {};  //N/2
   float avg_val = 0;
   for( int k = 1; k < (N/2)-1; k++) 
   {
@@ -57,13 +57,13 @@ float * avg(float *dft_sig)
   return avg_sign;
 }
 
-float * window(int *wr)
+float * window(float *wr, float *wbhn)
 {
   float c0 = 0.355768;
   float c1 = 0.487396;
   float c2 = 0.144232;
   float c3 = 0.012604;
-  static float wbhn [80] = {};
+  
 
   
   for (int t = 0; t < N; t++)
