@@ -9,15 +9,15 @@ Created on Thu Oct 10 05:34:22 2019
 import matplotlib.pyplot as plt
 import numpy as np
 import dft
-plt.close("all")
 
 # Learn about API authentication here: https://plot.ly/python/getting-started
 # Find your api_key here: https://plot.ly/settings/api
+T_dur = 1
+Fs = 1200.0;  # sampling rate -> BINS!
+Ts = T_dur/Fs; # sampling interval
+t = np.arange(0,T_dur,Ts) # time vector
 
-Fs = 1200.0;  # sampling rate
-Ts = 1/Fs; # sampling interval
-#t = np.arange(0,1,Ts) # time vector
-t = np.linspace(0,1,1200)
+#t = np.linspace(0,T_dur,Fs)
 
 ff_1 = 5;
 ff_2 = 53;
@@ -34,7 +34,7 @@ frq = frq_1[range(int(n/2))] # one side frequency range
 
 Y_1 = dft.dft(y) # fft computing and normalization
 Y_1 = np.array(Y_1)
-Y = Y_1[range(int(n/2))]
+Y = Y_1
 
 fig, ax = plt.subplots(2, 1)
 ax[0].plot(t,y)
