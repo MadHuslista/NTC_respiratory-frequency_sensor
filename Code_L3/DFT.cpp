@@ -44,8 +44,6 @@ void detect_freq(int *x)
     //Serial.println(dft_r[k]);
     
     freq_s = float_map(k,0, N, 0, samp_freq);
-
-    
     Serial.print(avg_r[k]);
     Serial.print("  ");
     Serial.println(freq_s,3);
@@ -59,7 +57,6 @@ void detect_freq(int *x)
       
     }
   }
-  
   Serial.print("Respiraciones por Minuto: ");
   Serial.println(freq*60, 3);
   Serial.print("Frecuencia Resp: ");
@@ -67,7 +64,6 @@ void detect_freq(int *x)
   Serial.println(" [Hz]");
   Serial.print(1/freq,3);
   Serial.println(" [s]");
-  
 }
 
 float * avg(float *dft_sig)

@@ -213,14 +213,16 @@ void P_7()
       dato = analogRead(sensor_read);
       prev_time = current_time;
       sign[i] = dato;
-      //float temp = steinhart(dato)/10;
-      float temp = steinhart(dato);
-   
+      float temp = steinhart(dato)/10;
+      
       Serial.print("READING   ");
-      Serial.print(float(dato)/100);
-      Serial.print("  ,  ");
+      Serial.print(dato);
+      Serial.print("  ");
       Serial.println(temp);
       
+      //Serial.print(temp);
+      //Serial.print(",");
+      //Serial.println(0);
       
       i = i + 1;
       if (i > (N - 1))
@@ -237,7 +239,7 @@ void P_7()
   {
     Serial.println("DFT");
     detect_freq(sign);
-    Serial.println("DFTEND");
+    Serial.println("DFT - END");
 
     //dft_results = dft(sign);
     //avg_results = avg(dft_results);
