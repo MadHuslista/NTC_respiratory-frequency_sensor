@@ -56,3 +56,21 @@ float * avg(float *dft_sig)
   }
   return avg_sign;
 }
+
+float * window(int *wr)
+{
+  float c0 = 0.355768;
+  float c1 = 0.487396;
+  float c2 = 0.144232;
+  float c3 = 0.012604;
+  static float wbhn [80] = {};
+
+  
+  for (int t = 0; t < N; t++)
+  {
+    float theta = (2*pi*t)/N;
+    float suma = c0 - c1*cos(theta) + c2*cos(theta*2) + c3*cos(theta*3);
+    wbhn[t] = wr[t]*suma;
+  }
+  return wbhn;
+}

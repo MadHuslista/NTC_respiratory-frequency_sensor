@@ -2,7 +2,16 @@
 #include "Gen_Tools.hpp"
 #include "DFT_Tools.hpp"
 
-
+void foo()
+{
+  float * win_sig = window(sign);
+  for (int i = 0; i < N; i++)
+  {
+    Serial.print(sign[i]);
+    Serial.print(" , ");
+    Serial.println(win_sig[i]);
+  }
+}
 void values_reading()
 {
   dato = analogRead(sensor);  

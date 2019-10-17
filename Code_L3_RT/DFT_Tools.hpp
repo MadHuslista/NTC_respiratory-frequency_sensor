@@ -9,6 +9,7 @@ extern float pi;
 //DFT Tool Functions
 float * dft(int *x);
 float * avg(float *dft_sig);
+float * window(int *wr); 
 
 
 

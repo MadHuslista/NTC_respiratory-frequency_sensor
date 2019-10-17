@@ -25,7 +25,8 @@ void setup()
   Thread_Read.onRun(values_reading);
   Thread_Read.setInterval(read_interval);
   
-  Thread_FreqDetect.onRun(freq_detection);
+  //Thread_FreqDetect.onRun(freq_detection);
+  Thread_FreqDetect.onRun(foo);
   Thread_FreqDetect.setInterval(freq_detect_interval);
 
   controll.add(&Thread_Read);  

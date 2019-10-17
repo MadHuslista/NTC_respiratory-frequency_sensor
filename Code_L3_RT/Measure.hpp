@@ -6,6 +6,7 @@
 
 void values_reading();
 void freq_detection();
+void foo();
 
 
 
