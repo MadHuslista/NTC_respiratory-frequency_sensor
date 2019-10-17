@@ -20,6 +20,8 @@ void setup()
   pinMode(led_ylw,OUTPUT);
   pinMode(led_red,OUTPUT);
 
+  analogReadResolution(12);   //Due
+
   Thread_Read.onRun(values_reading);
   Thread_Read.setInterval(read_interval);
   

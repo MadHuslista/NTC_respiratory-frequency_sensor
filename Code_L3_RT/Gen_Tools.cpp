@@ -3,9 +3,9 @@
 //Sampling Values
 int samp_freq = 2;    //(Hz)
 int secs_record = 40; 
-int N = int(samp_freq*secs_record);          //Cambiar manualmente en sign, dft y Tools.hpp, avg, y en el sign de values_reading();
+int N = int(samp_freq*secs_record);          //Cambiar manualmente en Gen_T{N}, Measure{sign[N-1]}, DFT_Tools{compl_amp[N/2], avg_sign[N/2] }
 unsigned long read_interval = 1000/samp_freq;      //interval = 500ms, para una freq de sampleo de 2Hz considerando max freq de señal 0.5Hz
-unsigned long freq_detect_interval = 2000;
+unsigned long freq_detect_interval = 800;
 
 
 //Pin declaration 
@@ -21,9 +21,6 @@ int sensor = A0;
 int dato; 
 int sign [80];
 int sign_pos = 0;
-
-
-
 
 
 //General Tool Functions
@@ -49,8 +46,12 @@ float volt_rest(int map_volt)
 {
   int resist = 989;
   //int resist = 10000;
-  float Vs = 4.47; 
-  float volt = float_map(map_volt, 0, 1023, 0.2, 4.4);
+  //float Vs = 4.47;                                        //Uno
+  //float volt = float_map(map_volt, 0, 1023, 0.2, Vs);
+  
+  float Vs = 3.26;                                          //Due
+  float volt = float_map(map_volt, 0, 4095, 0.2, Vs);
+  
   float termist = (volt*resist - Vs*resist)/(-volt);
   return termist;
   
