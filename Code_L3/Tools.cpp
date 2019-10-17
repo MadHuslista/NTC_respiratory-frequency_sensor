@@ -41,6 +41,7 @@ int out_val;
 float volt_rest(int map_volt)
 {
   int resist = 989;
+  //int resist = 10000;
   float Vs = 4.47; 
   float volt = float_map(map_volt, 0, 1023, 0.2, 4.4);
   float termist = (volt*resist - Vs*resist)/(-volt);
@@ -57,6 +58,7 @@ float steinhart(int map_volt)
   float C = 3.494314E-06;
   float D = -7.712690E-07;
   float ref = 1000;
+  //float ref = 10000;
 
   float res = termist/ref;
 

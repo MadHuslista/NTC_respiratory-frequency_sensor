@@ -139,16 +139,16 @@ void P_6()
 {
   sensor_val = analogRead(sensor_read);
   float temp = steinhart(sensor_val);
-  out_val = float_map(temp, 26, 35, 2, 7);
+  out_val = float_map(temp, 27, 30, 2, 7);
 
-  Serial.println(temp);
-  //Serial.print("   ");
-  //Serial.print(maxim);
-  //Serial.print("   ");
-  //Serial.println(minim);
+  Serial.print(temp);
+  Serial.print("   ");
+  Serial.print(maxim);
+  Serial.print("   ");
+  Serial.println(minim);
 
-  //if (temp > maxim) { maxim = temp;}
-  //if (temp < minim) { minim = temp;}
+  if (temp > maxim) { maxim = temp;}
+  if (temp < minim) { minim = temp;}
 
 
   if (out_val == 2)
