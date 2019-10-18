@@ -85,7 +85,7 @@ void freq_detection()
     {                                                 //ALGO ASÍ COMO PILLO EL BIN CON DFT_results[k] > MAX_AMP Y LUEGO <ALLÍ RECIÉN> hago la interpolación. 
       //max_amp = dft_r[k];
       max_amp = k_interpolation;
-      freq = float_map(k_interpolation,0, N, 0, samp_freq);
+      freq = float_map(k_interpolation,0, N, 0, samp_freq);   // [!!!] Revisar tiempo que demora en hacer esto. Si toma mucho tiempo se puede resumir. freq = float_map(k) = k* (samp_freq - 0)/(N- 0) = k / (samp_time * N) = k / sec_record. 
     }
   Serial.print("Amp:");
   Serial.println(k_interpolation);
