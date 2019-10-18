@@ -11,7 +11,7 @@ import scipy as sp
 import matplotlib.pyplot as plt 
 
 t_recorded = 10     #Secs
-f_sampl = 20         #Hz
+f_sampl = 200         #Hz
 
 samples = t_recorded*f_sampl
 
