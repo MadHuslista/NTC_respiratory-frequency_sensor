@@ -69,7 +69,7 @@ float * window(float *wr, float *wbhn)
   for (int t = 0; t < N; t++)
   {
     float theta = (2*pi*t)/N;
-    float suma = c0 - c1*cos(theta) + c2*cos(theta*2) + c3*cos(theta*3);
+    float suma = c0 - c1*cos(theta) + c2*cos(theta*2) - c3*cos(theta*3);
     wbhn[t] = wr[t]*suma;
   }
   return wbhn;
