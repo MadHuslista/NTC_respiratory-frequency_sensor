@@ -33,9 +33,10 @@ def dft (x):
         re = re/N
         im = im/N
         
-        amp = np.sqrt(re*re + im*im)
+    #    amp = np.sqrt(re*re + im*im)
+        amp = abs(complex(re,im))
         
-        C.append(complex(re,im))
+        C.append(amp)
     
     
     
@@ -82,31 +83,50 @@ def dft_plot(points_3, color='tab:blue'):
     frq = w * f_sampl/samples
     frq = np.array(frq)
     i = int(len(dft_sign)/2)
+    #i = int(len(dft_sign))
 
-    plt.plot(frq[range(i)], abs(dft_sign[range(i)]), color)
+    plt.plot(frq[range(i)], dft_sign[range(i)], color)
     return list(dft_sign)
 
 
 def interpol(signal, tipo='g'): 
-    if tipo == 'g': 
-        for i in signal: 
+    max_amp = 0
+    rango_bin = int(len(signal)/2)
+    for k in range(rango_bin): 
+        freq_bin = k/t_recorded
+        if (signal[k] > max_amp) and (freq_bin > 0.15): 
+            max_amp = signal[k]
+            if tipo == 'g': 
+                k_int = k + np.log(  signal[k+1]/ signal[k-1])  / (2* np.log((signal[k]*signal[k])/(signal[k+1]*signal[k-1])))
+            #elif tipo == 'p': 
+                k_int2 = k + ((signal[k+1] - signal[k-1])/(2*(2*signal[k] -signal[k-1]-signal[k+1])))
+            
+            freq_int = k_int/t_recorded
+            freq_int2 = k_int2/t_recorded
+            print(freq_bin, freq_int, freq_int2)
+            
+        
+        
+                
+                
+            
             
 
 t_recorded = 3     #Secs
-f_sampl = 2         #Hz
+f_sampl = 4         #Hz
 samples = t_recorded*f_sampl
 times = np.arange(0,t_recorded, (1/f_sampl))
 t = np.linspace(1,t_recorded,f_sampl*t_recorded)
 
 
-w_1 =  2*np.pi* 0.5
+w_1 =  2*np.pi* 1
 w_2 = 2*np.pi* 0.5
-w_3 = 2*np.pi* 0.4
+w_3 = 2*np.pi* 1.4
 points_1 = np.sin(w_1*times)
 points_2 = np.sin(w_2*times)
 points_3 = np.sin(w_3*times)
 DC = 3.3
-sin = points_1 #+ points_2 + points_3 
+sin = 1.5*points_1 #+ 1.5*points_2 + points_3 +DC
 
 noise_sin = noise(sin)
 win = wind(noise_sin)
@@ -116,7 +136,13 @@ if 0:
     plt.plot(noise_sin, 'r')
     plt.plot(win, 'g')
 else: 
-    dft_sin =  dft_plot(sin,'+' )
+    dft_sin =  dft_plot(sin, )
     dft_ns =  dft_plot(noise_sin, 'r+')
     dft_win = dft_plot(win, 'g+')
 
+print("Interpol sin")
+interpol(dft_sin)
+print("Interpol noise")
+interpol(dft_ns)
+print("Interpol window")
+interpol(dft_win)
