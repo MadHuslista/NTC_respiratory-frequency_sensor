@@ -1,76 +1,86 @@
 #include "Measure.hpp" 
 #include "Gen_Tools.hpp"
-#include "DFT_Tools.hpp"
+#include "Process_Tools.hpp"
+
+
 
 
 void values_reading()
 {
   dato = analogRead(sensor);  
+  float temp = steinhart(dato);
+    
   for (int pos = 0; pos < (N-1); pos++)
   {
     sign[pos] = sign[pos+1];
   }
-  sign[79] = dato;
-  float temp = steinhart(dato);
-
-  /*Serial.print(sign[0]);
-  Serial.print(" ... ");
-  Serial.print(sign[67]);
-  Serial.print(" ");
-  Serial.print(sign[68]);
-  Serial.print(" ");
-  Serial.print(sign[69]);
-  Serial.print(" ");
-  Serial.print(sign[70]);
-  Serial.print(" ");
-  Serial.print(sign[71]);
-  Serial.print(" ");
-  Serial.print(sign[72]);
-  Serial.print(" ");
-  Serial.print(sign[73]);
-  Serial.print(" ");
-  Serial.print(sign[74]);
-  Serial.print(" ");
-  Serial.print(sign[75]);
-  Serial.print(" ");
-  Serial.print(sign[76]);
-  Serial.print(" ");
-  Serial.print(sign[77]);
-  Serial.print(" ");
-  Serial.print(sign[78]);
-  Serial.print(" ");
-  Serial.print(sign[79]);
-  Serial.print(" , ");
-  Serial.println(temp);*/
+  sign[39] = temp;
 }
+
 
 void freq_detection()
 {
-  float *DFT_results = dft(sign);
-  float *AVG_results = avg(DFT_results);
+
+  unsigned long tm = millis();
+  float *pAVG_results = avg(sign, AVG_results);
+  float *pDFT_results = dft(pAVG_results, DFT_results);
+
+  //for (int p = 0; p < N; p ++)
+  //{
+  //  Serial.print(sign[p]);
+  //  Serial.print(',');
+  //  Serial.println(pAVG_results[p]);
+  //}
+
+  float actual_amp; 
+  float actual_freq;
+
   float max_amp = 0;
-  float freq = 0;
-  float freq_s = 0;
-  for (int k = 0; k < (N/2); k++)    
+  float interp_k = 0; 
+  
+  float bin_freq = 0; 
+  float intr_freq = 0;
+  
+  for (int k = 0; k < (N/2); k++)
   {
-    freq_s = float_map(k,0, N, 0, samp_freq);
-    Serial.print(AVG_results[k]);
-    Serial.print("  ");
-    Serial.println(freq_s,3);
+    actual_amp = pDFT_results[k];
+    actual_freq = float_map(k,0, N, 0, samp_freq); // or = float(k)/float(secs_record)
     
-    //if (dft_r[k] > max_amp)
-    if ((AVG_results[k] > max_amp)&&(freq_s > 0.15))
+      
+
+    if ((actual_amp > max_amp) && (actual_freq > 0.15))
     {
-      //max_amp = dft_r[k];
-      max_amp = AVG_results[k];
-      freq = float_map(k,0, N, 0, samp_freq);
+      max_amp = actual_amp;
+      interp_k = float(k) + log(pDFT_results[k+1]/pDFT_results[k-1])/(2*log((pDFT_results[k]*pDFT_results[k])/(pDFT_results[k+1]*pDFT_results[k-1])));
+
+      bin_freq = actual_freq;
+      intr_freq = float_map(interp_k,0, N, 0, samp_freq);
+      
+      
     }
+
   }
-  Serial.print("Respiraciones por Minuto: ");
-  Serial.println(freq*60, 3);
-  Serial.print("Frecuencia Resp: ");
-  Serial.print(freq,3);
-  Serial.println(" [Hz]");
-  Serial.print(1/freq,3);
-  Serial.println(" [s]");
+
+  /*Serial.print("Frecuencia Respiratoria b: ");
+  Serial.print(bin_freq);
+  Serial.print("    Respiraciones por Minuto b: ");
+  Serial.println(bin_freq*60, 3);
+  
+  Serial.print("Frecuencia Respiratoria i: ");
+  Serial.print(intr_freq);
+  Serial.print("    Respiraciones por Minuto i: ");
+  Serial.println(intr_freq*60, 3);
+  
+  
+  
+  Serial.println(millis() - tm);
+  Serial.println("      ");
+  Serial.println("      ");
+*/
+
+  Serial.print(bin_freq*60, 3);
+  Serial.print(',');
+  Serial.println(intr_freq*60, 3);
+  
+  
 }

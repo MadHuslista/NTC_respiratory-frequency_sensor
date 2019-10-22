@@ -10,9 +10,12 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt 
 
-plt.close("all")
+t_recorded = 10     #Secs
+f_sampl = 200         #Hz
 
-times = np.linspace(0,10,200)
+samples = t_recorded*f_sampl
+
+times = np.arange(0,t_recorded, (1/f_sampl))
 
 w_1 =  2*np.pi* 3
 w_2 = 2*np.pi* 5
@@ -51,20 +54,17 @@ def dft (x):
     
     rng = int(N/2)
     C = np.array(C)
-    C = C[range(rng)]
+    
     
     return C
 
 dft_sign = dft(points_3)
 dft_sign = np.array(dft_sign)
-w = np.arange(len(dft_sign)*2)
+w = np.arange(len(dft_sign))
 
-frq = w * 10/len(dft_sign)
+frq = w * f_sampl/samples
 frq = np.array(frq)
-i = int(len(dft_sign))
+i = int(len(dft_sign)/2)
 
-#dft_sign_half = dft_sign[range(i)]
-frq_half = frq[range(i)]
-
-plt.plot(frq_half, abs(dft_sign))
+plt.plot(frq[range(i)], abs(dft_sign[range(i)]))
         
