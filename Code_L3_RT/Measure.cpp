@@ -1,6 +1,6 @@
 #include "Measure.hpp" 
 #include "Gen_Tools.hpp"
-#include "DFT_Tools.hpp"
+#include "Process_Tools.hpp"
 
 /*void foo()
 {
@@ -19,15 +19,18 @@
   }
 }*/
 
+
+
 void values_reading()
 {
   dato = analogRead(sensor);  
+  float temp = steinhart(dato);
+    
   for (int pos = 0; pos < (N-1); pos++)
   {
     sign[pos] = sign[pos+1];
   }
-  sign[199] = dato;
-  float temp = steinhart(dato);
+  sign[19] = temp;
 }
 
 
@@ -35,24 +38,35 @@ void freq_detection()
 {
   unsigned long tm = millis();
 
+  float *pAVG_results = avg(sign, AVG_results);
   
-  float * wins_pnt = window(sign, windowed_sign);
-  float *DFT_results = dft(sign, DFT_signal_amps);
-  //float *AVG_results = avg(DFT_results);
+  //float *pDFT_results = dft(sign, DFT_results);
+  
+  
+
+  for (int pos = 0; pos < N ; pos++ )
+  {
+   // Serial.print(pAVG_results[pos]);
+    //Serial.print(',');
+    //Serial.println(sign[pos]);
+  }
+  
+  /*
+  
   float max_amp = 0;
   float freq_bin = 0;
   float freq_int = 0;
-  float freq_s = 0;
+  float freq_pos = 0;
   float k_interpolation = 0;
   
   for (int k = 1; k < (N/2)-1; k++)
   {
-    freq_s = float_map(k,0, N, 0, samp_freq);
+    freq_pos = float_map(k,0, N, 0, samp_freq);
     Serial.print(DFT_results[k]);
     Serial.print("  ");
-    Serial.println(freq_s,3);
+    Serial.println(freq_pos,3);
   
-    if ((DFT_results[k] > max_amp)&&(freq_s > 0.15))   
+    if ((DFT_results[k] > max_amp)&&(freq_pos > 0.15))   
       {                                                
         max_amp = DFT_results[k];
         
@@ -72,5 +86,5 @@ void freq_detection()
   Serial.println(" [Hz]");
   Serial.print(1/freq_int,3);
   Serial.println(" [s]");
-  Serial.println((millis()-tm));
+  Serial.println((millis()-tm));*/
 }

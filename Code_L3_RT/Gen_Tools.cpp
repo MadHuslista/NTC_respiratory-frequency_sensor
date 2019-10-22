@@ -1,11 +1,5 @@
 #include "Gen_Tools.hpp"
 
-//Sampling Values
-int samp_freq = 2;    //(Hz)
-int secs_record = 10; 
-int N = int(samp_freq*secs_record);          //Cambiar manualmente en Gen_T{N}, Measure{sign[N-1]}, DFT_Tools{compl_amp[N/2], avg_sign[N/2] }
-unsigned long read_interval = 1000/samp_freq;      //interval = 500ms, para una freq de sampleo de 2Hz considerando max freq de señal 0.5Hz
-unsigned long freq_detect_interval = 300;
 
 
 //Pin declaration 
@@ -16,11 +10,6 @@ int led_ylw = 4;
 int led_red = 3; 
 int sensor = A0;
 
-
-//Reading_Variables
-int dato; 
-float sign [20];
-int sign_pos = 0;
 
 
 //General Tool Functions

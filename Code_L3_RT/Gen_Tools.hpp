@@ -3,12 +3,7 @@
 
 #include <Arduino.h>
 
-//Sampling Values
-extern int samp_freq;                 //(Hz)
-extern int secs_record;
-extern int N;
-extern unsigned long read_interval;     
-extern unsigned long freq_detect_interval;
+
 
 
 //Pin declaration
@@ -19,10 +14,6 @@ extern int led_ylw;
 extern int led_red;
 extern int sensor;
 
-//Reading_Variables
-extern int dato; 
-extern float sign [20] ;
-extern int sign_pos ;
 
 
 
