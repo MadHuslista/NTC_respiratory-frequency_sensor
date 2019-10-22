@@ -1,3 +1,4 @@
+#include "Activities.hpp"
 #include "Gen_Tools.hpp"
 #include "Process_Tools.hpp"
 #include "Measure.hpp"
@@ -38,5 +39,9 @@ void setup()
 
 void loop()
 {
+  //P_1();
+  //P_4();
+  //P_5();
+  P_6();
   controll.run();
 }
