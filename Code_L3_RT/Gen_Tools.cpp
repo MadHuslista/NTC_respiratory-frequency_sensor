@@ -1,7 +1,7 @@
 #include "Gen_Tools.hpp"
 
 //Sampling Values
-int samp_freq = 20;    //(Hz)
+int samp_freq = 2;    //(Hz)
 int secs_record = 10; 
 int N = int(samp_freq*secs_record);          //Cambiar manualmente en Gen_T{N}, Measure{sign[N-1]}, DFT_Tools{compl_amp[N/2], avg_sign[N/2] }
 unsigned long read_interval = 1000/samp_freq;      //interval = 500ms, para una freq de sampleo de 2Hz considerando max freq de señal 0.5Hz
@@ -19,7 +19,7 @@ int sensor = A0;
 
 //Reading_Variables
 int dato; 
-float sign [200];
+float sign [20];
 int sign_pos = 0;
 
 
@@ -33,7 +33,6 @@ float steinhart(int map_volt)
   float C = 3.494314E-06;
   float D = -7.712690E-07;
   float ref = 1000;
-  //float ref = 10000;
 
   float res = termist/ref;
 
@@ -45,7 +44,7 @@ float steinhart(int map_volt)
 float volt_rest(int map_volt)
 {
   int resist = 989;
-  //int resist = 10000;
+  
   //float Vs = 4.47;                                        //Uno
   //float volt = float_map(map_volt, 0, 1023, 0.2, Vs);
   

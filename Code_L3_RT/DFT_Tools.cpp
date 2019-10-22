@@ -3,9 +3,9 @@
 
 
 float pi = 3.14159265358979323846;
-extern float DFT_signal_amps[100] = {};
-extern float sig2_ampl[100] = {};
-extern float windowed_sign[200] = {};
+extern float DFT_signal_amps[10] = {};
+extern float sig2_ampl[10] = {};
+extern float windowed_sign[20] = {};
 
 
 float * dft(float *x, float *ampl)
