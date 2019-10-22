@@ -12,14 +12,14 @@ extern unsigned long freq_detect_interval;
 
 //Reading_Variables
 extern int dato; 
-extern float sign [20] ;
+extern float sign [40] ;
 extern int sign_pos ;
 
 
 //DFT_Variables
 extern float pi;
-extern float DFT_results[10];
-extern float AVG_results[20];
+extern float DFT_results[20];
+extern float AVG_results[40];
 
 //DFT Tool Functions
 float * dft(float *x, float *ampl);
