@@ -38,10 +38,7 @@ def dft (x):
         
         C.append(amp)
     
-    
-    
     C = np.array(C)
-    
     
     return C
 
@@ -89,23 +86,29 @@ def dft_plot(points_3, color='tab:blue'):
     return list(dft_sign)
 
 
-def interpol(signal, tipo='g'): 
+def interpol(signal, min_freq, tipo = 'g'): 
     max_amp = 0
     rango_bin = int(len(signal)/2)
     for k in range(rango_bin): 
         freq_bin = k/t_recorded
-        if (signal[k] > max_amp) and (freq_bin > 0.15): 
-            max_amp = signal[k]
-            if tipo == 'g': 
-                k_int = k + np.log(  signal[k+1]/ signal[k-1])  / (2* np.log((signal[k]*signal[k])/(signal[k+1]*signal[k-1])))
-            #elif tipo == 'p': 
-                k_int2 = k + ((signal[k+1] - signal[k-1])/(2*(2*signal[k] -signal[k-1]-signal[k+1])))
-            
-            freq_int = k_int/t_recorded
-            freq_int2 = k_int2/t_recorded
-            print(freq_bin, freq_int, freq_int2)
-            
         
+        if (signal[k] > max_amp) and (freq_bin >= min_freq): 
+            max_amp = signal[k]
+            
+            #Interpol Gauss
+            k_int_g = k + np.log(  signal[k+1]/ signal[k-1])  / (2* np.log((signal[k]*signal[k])/(signal[k+1]*signal[k-1])))
+            #Interpol Parabolic
+            k_int_p = k + ((signal[k+1] - signal[k-1])/(2*(2*signal[k] -signal[k-1]-signal[k+1])))
+            
+            freq_int_g = k_int_g/t_recorded
+            freq_int_p = k_int_p/t_recorded
+            print('%.3f      %.3f      %.3f      %.3f' % (max_amp, freq_bin, freq_int_g, freq_int_p))
+    if tipo == 'g':
+        return [freq_int_g, max_amp]
+    elif tipo == 'p':
+        return [freq_int_p, max_amp]
+    elif tipo == 'b':
+        return freq_bin, max_amp
         
                 
                 
@@ -113,36 +116,55 @@ def interpol(signal, tipo='g'):
             
 
 t_recorded = 3     #Secs
-f_sampl = 4         #Hz
+f_sampl = 2         #Hz
 samples = t_recorded*f_sampl
 times = np.arange(0,t_recorded, (1/f_sampl))
 t = np.linspace(1,t_recorded,f_sampl*t_recorded)
 
+freq_min = 0.15
 
-w_1 =  2*np.pi* 1
+w_1 =  2*np.pi* 12
 w_2 = 2*np.pi* 0.5
-w_3 = 2*np.pi* 1.4
+w_3 = 2*np.pi* 15
+
 points_1 = np.sin(w_1*times)
 points_2 = np.sin(w_2*times)
 points_3 = np.sin(w_3*times)
 DC = 3.3
-sin = 1.5*points_1 #+ 1.5*points_2 + points_3 +DC
+sin = points_1 + 2*points_2 + points_3 + DC
 
 noise_sin = noise(sin)
-win = wind(noise_sin)
+#win = wind(noise_sin)
 
 if 0: 
     plt.plot(sin)
     plt.plot(noise_sin, 'r')
-    plt.plot(win, 'g')
+  #  plt.plot(win, 'g')
 else: 
     dft_sin =  dft_plot(sin, )
-    dft_ns =  dft_plot(noise_sin, 'r+')
-    dft_win = dft_plot(win, 'g+')
+    dft_ns =  dft_plot(noise_sin, 'r')
+ #   dft_win = dft_plot(win, 'g')
 
 print("Interpol sin")
-interpol(dft_sin)
+print("AMP       BIN       GAU      PARAB")
+max_sin = interpol(dft_sin, freq_min)
+print()
 print("Interpol noise")
-interpol(dft_ns)
-print("Interpol window")
-interpol(dft_win)
+print("AMP       BIN       GAU      PARAB")
+max_ns = interpol(dft_ns, freq_min)
+print()
+#print("Interpol noised window")
+#print("AMP       BIN       GAU      PARAB")
+#max_win = interpol(dft_win, freq_min)
+
+plt.scatter(max_sin[0], max_sin[1])
+plt.scatter(max_ns[0], max_ns[1], c='r')
+#plt.scatter(max_win[0], max_win[1], c='g')
+
+"""
+CONCLUSIONES: 
+    - Por alguna razón, el windowing no funciona. 
+    - Pero la interpolación sí, y caleta. 
+    - 
+    
+"""    
