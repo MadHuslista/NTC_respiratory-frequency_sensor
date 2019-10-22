@@ -23,6 +23,7 @@ float AVG_results[40] = {};
 //DFT Tool Functions
 float * dft(float *x, float *ampl)
 {
+  
   float re;
   float im;
   float phi;
@@ -46,7 +47,9 @@ float * dft(float *x, float *ampl)
    ampl[k] = amp;
       
   }
+  
   return ampl;  
+  
 }
 
 
@@ -59,13 +62,7 @@ float * avg(float *sig, float *avg_sign)
     
     avg_val = (sig[k-1]+sig[k]+sig[k+1])/3;
     avg_sign[k] = avg_val;  
-
-    /*if (k > 7)
-    {
-    Serial.print(dft_sig[k]);
-    Serial.print(" , ");
-    Serial.println(avg_sign[k]);
-    }*/
+  
   }
   avg_sign[0] = sig[0];
   avg_sign[39] = sig[39];
